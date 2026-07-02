@@ -10,6 +10,10 @@ function App() {
     setMarks(newMarks);
   };
 
+  const handleAdd = () => {
+    setMarks([...marks, ""]);
+  };
+
   const handleClick = () => {
     const total = marks.reduce((sum, val) => sum + Number(val || 0), 0);
     const percentage = (total * 100) / (marks.length * 100);
@@ -18,12 +22,12 @@ function App() {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500">
-      <div className="w-[90%] max-w-md bg-white rounded-3xl shadow-2xl flex flex-col items-center border-4 border-purple-700 p-8">
+      <div className="w-[95%] max-w-md bg-white rounded-3xl shadow-2xl flex flex-col items-center border-4 border-purple-700 p-8 gap-1">
         <h1 className="text-purple-700 font-extrabold text-4xl mb-6 drop-shadow-lg text-center">
           🎓 Percentage Calculator
         </h1>
 
-        <div className="w-full flex flex-col space-y-4">
+        <div className="w-full flex flex-col space-y-4 overflow-y-auto max-h-[300px]">
           {marks.map((mark, index) => (
             <input
               key={index}
@@ -36,10 +40,15 @@ function App() {
           ))}
         </div>
 
+        <button onClick={handleAdd} className="w-4/5 p-2 rounded-xl font-bold hover:bg-green-700 m-3 cursor-pointer text-white bg-green-500" disabled={marks.every((mark) => mark == "")}>
+          Add Input
+        </button>
+
         <div className="w-full flex justify-between items-center mt-8">
           <button
             className="bg-gradient-to-r from-green-400 to-green-600 h-12 w-32 rounded-2xl font-bold text-white shadow-lg cursor-pointer hover:scale-105 transform transition-all duration-300"
             onClick={handleClick}
+            disabled={marks.length === 0 || marks.some((mark) => mark === "")}
           >
             Calculate
           </button>
